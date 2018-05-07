@@ -79,13 +79,13 @@
                 let reg = /\{\{\s*([\w.]+)\s*\}\}/g;
 
                 if(node.nodeType === 3 && reg.test(text)) { // 文本节点
-                    node.textContent = text.replace(reg, function(match, p1) {
-                        new Watcher(vm, p1, newVal => {
-                            node.textContent = text.replace(reg, newVal);
-                        })
-                        return getValFromExp(vm, p1);
-                    });
-                    
+                    function replaceText() {
+                        node.textContent = text.replace(reg, function(match, p1) {
+                            new Watcher(vm, p1, replaceText);
+                            return getValFromExp(vm, p1);
+                        });
+                    }
+                    replaceText();
                 }
 
                 if(node.childNodes && node.childNodes.length) {
