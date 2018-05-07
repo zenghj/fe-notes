@@ -14,7 +14,7 @@
 
         proxy(this._data, this); // 数据代理
         observe(data); // 数据劫持
-        new Compile(this.$options.el, this);
+        compile(this.$options.el, this);
     }
 
 
@@ -64,23 +64,7 @@
         }
     }
 
-    // function Compile(el, vm) {
-    //     vm.$el = document.querySelector(el);
-    //     let template = vm.$options.template;
-    //     template = template.replace(/\{\{\s*([\w.]+)\s*\}\}/g, function(match, p1) {
-    //         let paths = p1.split('.');
-    //         let val = vm;
-    //         paths.forEach(path => {
-    //             val = val[path]
-    //         });
-            
-    //         return val;
-    //     });
-    //     // console.log('template', template);
-    //     vm.$el.innerHTML = template;
-    // }
-
-    function Compile(el, vm) {
+    function compile(el, vm) {
         vm.$el = document.querySelector(el);
         let template = vm.$options.template;
         let div = document.createElement('div');
@@ -95,18 +79,6 @@
                 let reg = /\{\{\s*([\w.]+)\s*\}\}/g;
 
                 if(node.nodeType === 3 && reg.test(text)) { // 文本节点
-                    // function replaceText() {
-                    //     node.textContent = txt.replace(reg, (matched, p1) => {
-                    //         new Watcher(vm, p1, replaceText)
-                    //     })
-                    // }
-                    // let exp = RegExp.$1;
-                    // let paths = exp.split('.');
-                    // let val = vm;
-                    // paths.forEach(path => {
-                    //     val = val[path];
-                    // })
-
                     node.textContent = text.replace(reg, function(match, p1) {
                         new Watcher(vm, p1, newVal => {
                             node.textContent = text.replace(reg, newVal);
