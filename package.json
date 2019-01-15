@@ -1,0 +1,24 @@
+{
+  "name": "fe-notes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run compile",
+    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "test": "npm run compile && mocha --recursive --compilers js:babel-core/register",
+    "t": "mocha --recursive --compilers js:babel-core/register"
+  },
+  "repository": "git@github.com:zenghj/fe-notes.git",
+  "author": "julianzeng <zenghj@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
