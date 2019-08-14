@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>xss demo</title>
+  <style>
+  #app {
+    height: 90vh;
+    display: grid;
+    grid: auto-flow / 1fr 1fr;
+  }
+  /* #textarea {
+    width: 50vw;
+    height: 50vh;
+  } */
+  #result {
+    background: #eee;
+  }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <textarea id="textarea"></textarea>
+    <div id="result">
+      <!-- <script>alert('x')</script>  -->
+      <!-- <img src="xx" onerror="alert('hello img error')"> -->
+      <!-- <img src="xx" onerror="console.error('hello imxg error')" > -->
+    </div>
+    
+  </div>
+  <script src="./xss.js"></script>
+  <script>
+  const textareaEle = document.getElementById('textarea')
+  const resultEle = document.getElementById('result')
+  textareaEle.addEventListener('input', function(e) {
+    let value = e.target.value
+    value = escapeHtml(value)
+    console.log(value)
+    resultEle.innerHTML = value
+  })
+  </script>
+</body>
+</html>
