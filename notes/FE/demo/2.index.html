@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>错误收集</title>
+</head>
+<body>
+  <script>
+    function logError() {
+      console.log('[logError]', ...arguments)
+    }
+    window.onerror = function(message, source, lineno, colno, error) {
+      logError({
+        message, source, lineno, colno, error
+      })
+    }
+    window.onunhandledrejection = function(e) {
+      logError(
+        '[unhandledrejection]', {
+          error: e
+        })
+    }
+  </script>
+  <script>
+  try {
+    throw new Error("oops");
+  } catch (e) {
+    logError({
+      error: e
+    })
+  }
+  </script>
+  <script>
+    a();
+  </script>
+  <script>
+    new Promise((res) => {
+      b()
+    })
+  </script>
+</body>
+</html>
