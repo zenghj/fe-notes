@@ -1,0 +1,3 @@
+[submodule "notes/git/demo/test-submodule"]
+	path = notes/git/demo/test-submodule
+	url = git@github.com:zenghj/test.git
