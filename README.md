@@ -1,2 +1,3 @@
 # fe-notes
-some casual notes about front-end development
+
+* [191208:vue-router动态路由组件智能预加载](notes/vue/1.vue-router动态路由组件智能预加载.md)
