@@ -3,10 +3,15 @@ const { gql } = require('apollo-server-express')
 module.exports = gql`
   type Article {
     id: ID!
+    "文章标题"
     title: String!
+    "文章描述"
     description: String!
+    "文章内容"
     content: String!
+    "文章创建时间"
     createdAt: String
+    "文章更新时间"
     updatedAt: String
   }
   input NewArticle {

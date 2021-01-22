@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>双向数据绑定</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      /**
+       * 仅支持v-model，v-text 简单说明mvvm
+       */
+      class Mvvm {
+        constructor(opt) {
+          this.$el = document.querySelector(opt.el);
+          this.$options = opt;
+          this.$data = opt.data() || {};
+          this.updates = [];
+
+          Object.keys(this.$data).forEach(key => {
+            Object.defineProperty(this, key, {
+              set: newVal => {
+                this.$data[key] = newVal;
+                this.notify();
+              },
+              get: () => {
+                return this.$data[key];
+              }
+            });
+          });
+
+          this.mount();
+        }
+        mount() {
+          let div = document.createElement('div');
+          div.innerHTML = this.$options.template;
+          let rootEle = div.children[0];
+
+          [].forEach.call(rootEle.children, child => {
+            let tagName = child.tagName.toLowerCase();
+            let type = child.getAttribute('type');
+            let vModel = child.getAttribute('v-model');
+            let vText = child.getAttribute('v-text');
+            if (tagName === 'input' && type === 'text' && vModel) {
+              child.value = this[vModel] || '';
+              child.addEventListener('input', e => {
+                this[vModel] = e.target.value;
+              });
+            }
+            if (vText) {
+              this.updates.push(() => {
+                child.textContent = this[vText];
+              });
+            }
+          });
+
+          this.update();
+          this.$el.appendChild(rootEle);
+          div = null;
+        }
+        notify() {
+          this.update();
+        }
+        update() {
+          this.updates.forEach(func => {
+            func();
+          });
+        }
+      }
+    </script>
+    <script>
+      var app = new Mvvm({
+        el: '#app',
+        template: `
+                <div>
+                    <input type="text" v-model="text">
+                    <span v-text="text"></span>
+                </div>
+              `,
+        data() {
+          return {
+            text: 'hello world'
+          };
+        }
+      });
+    </script>
+  </body>
+</html>

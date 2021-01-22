@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>center</title>
+  <style>
+    div {
+      border: 1px solid;
+    }
+    .p {
+      width: 400px;
+      height: 400px;
+    }
+    .p {
+      display: table;
+    }
+    .c {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="p">
+    <div class="c">xxx</div>
+  </div>
+  <script>
+    /**
+     * 已知
+     * 1. margin 0 auto横向居中，padding p.height-c.height/2垂直居中
+     * 
+     * 通用
+     * absolute + transform 
+     * display flex + align-items center + justify-content center
+     * 
+     * 垂直居中
+     * display: table-cell; vertical-align: middle;
+     * 单行垂直居中：line-height === height
+     * 
+     * 水平居中
+     * 1. margin: 0 auto;
+     * 2. text-align: center;
+     * 
+     */
+  </script>
+</body>
+</html>

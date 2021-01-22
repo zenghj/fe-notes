@@ -1,0 +1,42 @@
+variables:
+  PROJECT_SSH_URL: "git@git.n.xiaomi.com:$CI_PROJECT_PATH.git"
+  HOSTS: "staging:tj1-miliao-release-test01.kscn,\
+    staging:tj1-miliao-release-test02.kscn,\
+    staging:tj1-miliao-release-test03.kscn"
+
+before_script:
+  - wget -q https://cnbj1-inner-fds.api.xiaomi.net/deploy-binary/release-cli.jar
+
+stages:
+  - build
+  - deploy
+
+build_branch:
+  stage: build
+  script:
+    - java -jar release-cli.jar -action build -ak $ACCESS_KEY -sk $SECRET_KEY -codeUrl $PROJECT_SSH_URL -codeType branch -version $CI_COMMIT_SHORT_SHA -branch $CI_COMMIT_REF_NAME -service cicd-demo
+  only:
+    - branches
+
+build_tag:
+  stage: build
+  script:
+    - java -jar release-cli.jar -action build -ak $ACCESS_KEY -sk $SECRET_KEY -codeUrl $PROJECT_SSH_URL -codeType tag -version $CI_COMMIT_REF_NAME -service cicd-demo
+  only:
+    - tags
+
+deploy_branch:
+  stage: deploy
+  script:
+    - java -jar release-cli.jar -action deploy -ak $ACCESS_KEY -sk $SECRET_KEY -pdl cop.xiaomi_owt.miliao_pdl.release-test -jobname job.cicd-demo_service.cicd-demo -codeType branch -version $CI_COMMIT_SHORT_SHA -branch $CI_COMMIT_REF_NAME -hosts $HOSTS
+  only:
+    - master
+  when: on_success
+
+deploy_tag:
+  stage: deploy
+  script:
+    - java -jar release-cli.jar -action deploy -ak $ACCESS_KEY -sk $SECRET_KEY -pdl cop.xiaomi_owt.miliao_pdl.release-test -jobname job.cicd-demo_service.cicd-demo -codeType tag -version $CI_COMMIT_REF_NAME -hosts $HOSTS
+  only:
+    - tags
+  when: on_success

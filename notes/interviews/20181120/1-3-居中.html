@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  #box {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #aaa;
+  }
+  .border {
+    border: 1px solid;
+  }
+  </style>
+</head>
+<body>
+  <div id="box">
+    <button id="btn">click</button>
+  </div>
+
+  <script>
+    var borderClass = 'border'
+    var box = document.getElementById('box')
+    var btn = document.getElementById('btn')
+
+    box.addEventListener('click', function(e) {
+      if(e.target === btn) {
+        if(!box.classList.contains(borderClass)) {
+          box.classList.add(borderClass)
+        }
+      } else {
+        if(box.classList.contains(borderClass)) {
+          box.classList.remove(borderClass)
+        }
+      }
+    })
+  </script>
+</body>
+</html>
